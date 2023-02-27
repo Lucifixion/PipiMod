@@ -40,20 +40,20 @@ public class PipiEntityModel extends EntityModel<PipiEntity> {
     }
 
     @Override
-    public void setAngles(PipiEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        if (entity.getFrolicing()) {
-            float tickDelta = ageInTicks - (float)entity.age;
-            this.jumpProgress = MathHelper.sin(entity.getJumpProgress(tickDelta) * 3.1415927F);
-            this.front_right_leg.pitch = -(this.jumpProgress * 50.0F * 0.017453292F);
-            this.front_left_leg.pitch = -(this.jumpProgress * 50.0F * 0.017453292F);
-            this.back_right_leg.pitch = this.jumpProgress * 50.0F * 0.017453292F;
-            this.back_left_leg.pitch = this.jumpProgress * 50.0F * 0.017453292F;
-        } else {
+    public void setAngles(PipiEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) { // please reimplement this animation at some point
+//        if (entity.getFrolicing()) {
+//            float tickDelta = ageInTicks - (float)entity.age;
+//            this.jumpProgress = MathHelper.sin(entity.getJumpProgress(tickDelta) * 3.1415927F);
+//            this.front_right_leg.pitch = -(this.jumpProgress * 50.0F * 0.017453292F);
+//            this.front_left_leg.pitch = -(this.jumpProgress * 50.0F * 0.017453292F);
+//            this.back_right_leg.pitch = this.jumpProgress * 50.0F * 0.017453292F;
+//            this.back_left_leg.pitch = this.jumpProgress * 50.0F * 0.017453292F;
+//        } else {
             this.back_right_leg.pitch = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
             this.back_left_leg.pitch = MathHelper.cos(limbSwing * 0.6662F + 3.1415927F) * 1.4F * limbSwingAmount;
             this.front_right_leg.pitch = MathHelper.cos(limbSwing * 0.6662F + 3.1415927F) * 1.4F * limbSwingAmount;
             this.front_left_leg.pitch = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
-        }
+//        }
     }
 
     @Override
