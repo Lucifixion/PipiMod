@@ -2,10 +2,8 @@ package com.goopswagger.pipimod.core.entity;
 
 import com.goopswagger.pipimod.core.PipiModBlocks;
 import com.goopswagger.pipimod.core.PipiModEntities;
-import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.control.JumpControl;
 import net.minecraft.entity.ai.control.MoveControl;
 import net.minecraft.entity.ai.goal.*;
@@ -24,17 +22,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.Ingredient;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.ItemTags;
-import net.minecraft.registry.tag.TagKey;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -60,7 +54,7 @@ public class PipiEntity extends AnimalEntity {
         this.goalSelector.add(1, new SwimGoal(this));
         this.goalSelector.add(1, new PowderSnowJumpGoal(this, this.world));
         this.goalSelector.add(2, new AnimalMateGoal(this, 0.6));
-        this.goalSelector.add(3, new PipiTemptGoal(this, 0.65, Ingredient.ofItems(Items.DANDELION), false));
+        this.goalSelector.add(3, new PipiTemptGoal(this, 0.65, Ingredient.fromTag(ItemTags.FLOWERS), false));
         this.goalSelector.add(6, new WanderAroundFarGoal(this, 0.6));
     }
 
@@ -73,7 +67,6 @@ public class PipiEntity extends AnimalEntity {
         super.initDataTracker();
         this.dataTracker.startTracking(FROLICING, false);
         this.dataTracker.startTracking(FLOWER, true);
-        this.dataTracker.set(FLOWER, true); // IDK ? ? initial value didnt work
     }
 
     public void writeCustomDataToNbt(NbtCompound nbt) {
@@ -137,9 +130,7 @@ public class PipiEntity extends AnimalEntity {
 
     public void sheared(SoundCategory shearedSoundCategory) {
         this.world.playSoundFromEntity((PlayerEntity)null, this, SoundEvents.ENTITY_SHEEP_SHEAR, shearedSoundCategory, 1.0F, 1.0F);
-
         this.dataTracker.set(FLOWER, false);
-
         ItemEntity itemEntity = this.dropItem(PipiModBlocks.PINK_DAISY.asItem());
         if (itemEntity != null) {
             itemEntity.setVelocity(itemEntity.getVelocity().add((this.random.nextFloat() - this.random.nextFloat()) * 0.1F, this.random.nextFloat() * 0.05F, (this.random.nextFloat() - this.random.nextFloat()) * 0.1F));
@@ -273,7 +264,7 @@ public class PipiEntity extends AnimalEntity {
         this.disableJump();
     }
 
-    public float getJumpProgress(float delta) {
+    public float getJumpProgress(float delta) { // keep this for the frolic animation
         return this.jumpDuration == 0 ? 0.0F : ((float)this.jumpTicks + delta) / (float)this.jumpDuration;
     }
 
