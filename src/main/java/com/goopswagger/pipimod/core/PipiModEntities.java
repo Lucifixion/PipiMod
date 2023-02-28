@@ -15,8 +15,8 @@ public class PipiModEntities {
 
     public static final EntityType<PipiEntity> PIPI = Registry.register(
             Registries.ENTITY_TYPE,
-            new Identifier(PipiMod.MODID, "pipi"),
-            FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, PipiEntity::new).dimensions(EntityDimensions.fixed(0.75f, 0.75f)).build()
+            new Identifier(PipiMod.MODID, "pipi"), FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, PipiEntity::new).dimensions(
+                    EntityDimensions.fixed(0.75f, 0.75f)).build()
     );
 
     public static void init() {

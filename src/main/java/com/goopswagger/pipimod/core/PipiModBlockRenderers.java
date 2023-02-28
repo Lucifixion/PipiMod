@@ -7,6 +7,7 @@ public class PipiModBlockRenderers {
 
     public static void init() {
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), PipiModBlocks.PINK_DAISY);
+        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), PipiModBlocks.POTTED_PINK_DAISY);
     }
 
 }

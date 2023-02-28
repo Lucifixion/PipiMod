@@ -29,7 +29,7 @@ public class PipiFlowerFeatureRenderer<T extends PipiEntity> extends FeatureRend
 
     @Override
     public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, T pipiEntity, float f, float g, float h, float j, float k, float l) {
-        if (!pipiEntity.isBaby()) {
+        if (pipiEntity.hasFlower()) {
             MinecraftClient minecraftClient = MinecraftClient.getInstance();
             boolean bl = minecraftClient.hasOutline(pipiEntity) && pipiEntity.isInvisible();
             if (!pipiEntity.isInvisible() || bl) {
@@ -39,7 +39,6 @@ public class PipiFlowerFeatureRenderer<T extends PipiEntity> extends FeatureRend
                 matrixStack.push();
                 this.getContextModel().getHead().rotate(matrixStack);
                 matrixStack.translate(0.0F, -0.7F, 0.0F);
-                matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-78.0F));
                 matrixStack.scale(-1.0F, -1.0F, 1.0F);
                 matrixStack.translate(-0.5F, -0.5F, -0.5F);
                 this.renderFlower(matrixStack, vertexConsumerProvider, i, bl, blockState, m, bakedModel);

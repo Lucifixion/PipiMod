@@ -1,7 +1,11 @@
 package com.goopswagger.pipimod.core.entity;
 
+import com.goopswagger.pipimod.core.PipiModBlocks;
 import com.goopswagger.pipimod.core.PipiModEntities;
+import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.control.JumpControl;
 import net.minecraft.entity.ai.control.MoveControl;
 import net.minecraft.entity.ai.goal.*;
@@ -13,24 +17,34 @@ import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PassiveEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.Ingredient;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.registry.tag.ItemTags;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.DyeColor;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
 public class PipiEntity extends AnimalEntity {
 
     private static final TrackedData<Boolean> FROLICING = DataTracker.registerData(PipiEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+    private static final TrackedData<Boolean> FLOWER = DataTracker.registerData(PipiEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 
     private int jumpTicks;
     private int jumpDuration;
@@ -50,19 +64,30 @@ public class PipiEntity extends AnimalEntity {
         this.goalSelector.add(6, new WanderAroundFarGoal(this, 0.6));
     }
 
+    @Override
+    public boolean isBreedingItem(ItemStack stack) {
+        return stack.isIn(ItemTags.FLOWERS);
+    }
+
     protected void initDataTracker() {
         super.initDataTracker();
         this.dataTracker.startTracking(FROLICING, false);
+        this.dataTracker.startTracking(FLOWER, true);
+        this.dataTracker.set(FLOWER, true); // IDK ? ? initial value didnt work
     }
 
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
+        nbt.putBoolean("flower", this.dataTracker.get(FLOWER));
+        nbt.putInt("flowerTick", this.flowerTick);
         nbt.putBoolean("isFrolicing", this.getFrolicing());
         nbt.putShort("frolicTicks", this.frolicTick);
     }
 
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
+        this.dataTracker.set(FLOWER, nbt.getBoolean("flower"));
+        this.flowerTick = (nbt.getInt("flowerTick"));
         this.setFrolicing(nbt.getBoolean("isFrolicing"));
         this.frolicTick = nbt.getByte("frolicTicks");
     }
@@ -82,6 +107,44 @@ public class PipiEntity extends AnimalEntity {
         PipiEntity pipiEntity = PipiModEntities.PIPI.create(world);
         pipiEntity.setBaby(true);
         return pipiEntity;
+    }
+
+    public boolean hasFlower() {
+        return (!this.isBaby() && this.dataTracker.get(FLOWER));
+    }
+
+    public ActionResult interactMob(PlayerEntity player, Hand hand) {
+
+        if (player.isSneaking() && player.getStackInHand(hand) == ItemStack.EMPTY) { // pet the pipi
+            player.swingHand(hand);
+            this.world.sendEntityStatus(this, (byte)18);
+            return ActionResult.SUCCESS;
+        }
+
+        ItemStack itemStack = player.getStackInHand(hand);
+        if (itemStack.isOf(Items.SHEARS)) { // cut off all your hair
+            if (!this.world.isClient && this.hasFlower()) {
+                this.sheared(SoundCategory.PLAYERS);
+                this.emitGameEvent(GameEvent.SHEAR, player);
+                itemStack.damage(1, player, (playerx) -> playerx.sendToolBreakStatus(hand));
+                return ActionResult.SUCCESS;
+            } else {
+                return ActionResult.CONSUME;
+            }
+        }
+        return super.interactMob(player, hand);
+    }
+
+    public void sheared(SoundCategory shearedSoundCategory) {
+        this.world.playSoundFromEntity((PlayerEntity)null, this, SoundEvents.ENTITY_SHEEP_SHEAR, shearedSoundCategory, 1.0F, 1.0F);
+
+        this.dataTracker.set(FLOWER, false);
+
+        ItemEntity itemEntity = this.dropItem(PipiModBlocks.PINK_DAISY.asItem());
+        if (itemEntity != null) {
+            itemEntity.setVelocity(itemEntity.getVelocity().add((this.random.nextFloat() - this.random.nextFloat()) * 0.1F, this.random.nextFloat() * 0.05F, (this.random.nextFloat() - this.random.nextFloat()) * 0.1F));
+        }
+
     }
 
     protected void jump() {
@@ -134,10 +197,12 @@ public class PipiEntity extends AnimalEntity {
     }
 
     private short frolicTick = 0;
+    private int flowerTick = 0;
 
     @Override
     public void tick() {
         super.tick();
+        frolicTick++;
 
         int frolicLimit = getFrolicing() ? 200 : 350;
 
@@ -146,7 +211,14 @@ public class PipiEntity extends AnimalEntity {
             frolicTick = 0;
         }
 
-        frolicTick++;
+        if (!this.dataTracker.get(FLOWER)) {
+            flowerTick++;
+            if (flowerTick > 6000) {
+                flowerTick = 0;
+                this.dataTracker.set(FLOWER, true);
+            }
+        }
+
     }
 
     public void mobTick() {

@@ -42,7 +42,6 @@ public class PlayerFlowerFeatureRenderer<T extends PlayerEntity> extends Feature
                 matrixStack.push();
                 this.getContextModel().getHead().rotate(matrixStack);
                 matrixStack.translate(0.0F, -1.0F, 0.0F);
-                matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-78.0F));
                 matrixStack.scale(-1.0F, -1.0F, 1.0F);
                 matrixStack.translate(-0.5F, -0.5F, -0.5F);
                 this.renderFlower(matrixStack, vertexConsumerProvider, i, bl, blockState, m, bakedModel);

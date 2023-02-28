@@ -14,7 +14,6 @@ public class PipiModRenderers {
 
     public static void init() {
         EntityRendererRegistry.register(PipiModEntities.PIPI, PipiEntityRenderer::new);
-
         EntityModelLayerRegistry.registerModelLayer(MODEL_PIPI_LAYER, PipiEntityModel::getTexturedModelData);
     }
 
