@@ -1,6 +1,5 @@
 package com.goopswagger.pipimod.mixin;
 
-import com.goopswagger.pipimod.core.entity.render.feature.PipiFlowerFeatureRenderer;
 import com.goopswagger.pipimod.core.entity.render.feature.PlayerFlowerFeatureRenderer;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.entity.EntityRendererFactory;
