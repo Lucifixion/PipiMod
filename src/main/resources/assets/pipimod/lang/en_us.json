@@ -1,6 +1,9 @@
 {
+    "advancements.pipimod.story.cosplay.title": "Cosplay!",
+    "advancements.pipimod.story.cosplay.description": "Wear the flower of a Pipi on your head",
+
     "item.pipimod.pipi_spawn_egg": "Pipi Spawn Egg",
-    "block.pipimod.pink_daisy": "Pink Daisy",
+    "block.pipimod.pink_daisy": "Pipi Flower",
 
     "entity.pipimod.pipi": "Pipi"
 }

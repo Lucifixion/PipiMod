@@ -1,6 +1,13 @@
 {
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "pipimod:block/pink_daisy"
-  }
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:item/generated",
+	"textures": {
+		"layer0": "pipimod:block/pink_daisy"
+	},
+	"gui_light": "front",
+	"display": {
+		"head": {
+			"scale": [0, 0, 0]
+		}
+	}
 }

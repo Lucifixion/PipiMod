@@ -1,0 +1,37 @@
+{
+  "parent": "minecraft:story/obtain_armor",
+  "criteria": {
+    "pink_daisy": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "pipimod:pink_daisy"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.pipimod.story.cosplay.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item":  "pipimod:pink_daisy"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.pipimod.story.cosplay.title"
+    }
+  },
+  "requirements": [
+    [
+      "pink_daisy"
+    ]
+  ]
+}
