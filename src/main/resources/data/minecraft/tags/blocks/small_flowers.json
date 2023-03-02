@@ -1,6 +1,21 @@
 {
   "replace": false,
   "values": [
-    "pipimod:pink_daisy"
+    "pipimod:white_daisy",
+    "pipimod:orange_daisy",
+    "pipimod:magenta_daisy",
+    "pipimod:light_blue_daisy",
+    "pipimod:yellow_daisy",
+    "pipimod:lime_daisy",
+    "pipimod:pink_daisy",
+    "pipimod:gray_daisy",
+    "pipimod:light_gray_daisy",
+    "pipimod:cyan_daisy",
+    "pipimod:purple_daisy",
+    "pipimod:blue_daisy",
+    "pipimod:brown_daisy",
+    "pipimod:green_daisy",
+    "pipimod:red_daisy",
+    "pipimod:black_daisy"
   ]
 }

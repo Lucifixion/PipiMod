@@ -1,6 +1,7 @@
 package com.goopswagger.pipimod.core;
 
 import com.goopswagger.pipimod.PipiMod;
+import com.goopswagger.pipimod.core.entity.MushroomPipiEntity;
 import com.goopswagger.pipimod.core.entity.PipiEntity;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
@@ -19,8 +20,15 @@ public class PipiModEntities {
                     EntityDimensions.fixed(0.75f, 0.75f)).build()
     );
 
+    public static final EntityType<MushroomPipiEntity> MUSHROOM_PIPI = Registry.register(
+            Registries.ENTITY_TYPE,
+            new Identifier(PipiMod.MODID, "mushroom_pipi"), FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, MushroomPipiEntity::new).dimensions(
+                    EntityDimensions.fixed(0.75f, 0.75f)).build()
+    );
+
     public static void init() {
         FabricDefaultAttributeRegistry.register(PIPI, PipiEntity.createMobAttributes());
+        FabricDefaultAttributeRegistry.register(MUSHROOM_PIPI, MushroomPipiEntity.createMobAttributes());
     }
 
 }

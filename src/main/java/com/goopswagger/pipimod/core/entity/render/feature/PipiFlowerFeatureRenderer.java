@@ -1,6 +1,5 @@
 package com.goopswagger.pipimod.core.entity.render.feature;
 
-import com.goopswagger.pipimod.core.PipiModBlocks;
 import com.goopswagger.pipimod.core.entity.PipiEntity;
 import com.goopswagger.pipimod.core.entity.model.PipiEntityModel;
 import net.fabricmc.api.EnvType;
@@ -16,7 +15,6 @@ import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.RotationAxis;
 
 @Environment(EnvType.CLIENT)
 public class PipiFlowerFeatureRenderer<T extends PipiEntity> extends FeatureRenderer<T, PipiEntityModel<T>> {
@@ -33,7 +31,7 @@ public class PipiFlowerFeatureRenderer<T extends PipiEntity> extends FeatureRend
             MinecraftClient minecraftClient = MinecraftClient.getInstance();
             boolean bl = minecraftClient.hasOutline(pipiEntity) && pipiEntity.isInvisible();
             if (!pipiEntity.isInvisible() || bl) {
-                BlockState blockState = PipiModBlocks.PINK_DAISY.getDefaultState();
+                BlockState blockState = pipiEntity.getFlower().getDefaultState();
                 int m = LivingEntityRenderer.getOverlay(pipiEntity, 0.0F);
                 BakedModel bakedModel = this.blockRenderManager.getModel(blockState);
                 matrixStack.push();

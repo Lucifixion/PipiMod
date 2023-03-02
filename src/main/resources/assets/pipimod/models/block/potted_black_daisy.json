@@ -1,0 +1,6 @@
+{
+	"parent": "pipimod:block/template/potted_daisy",
+	"textures": {
+		"cross": "pipimod:block/black_daisy"
+	}
+}

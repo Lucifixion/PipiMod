@@ -1,6 +1,21 @@
 {
   "replace": false,
   "values": [
-    "pipimod:potted_pink_daisy"
+    "pipimod:potted_white_daisy",
+    "pipimod:potted_orange_daisy",
+    "pipimod:potted_magenta_daisy",
+    "pipimod:potted_light_blue_daisy",
+    "pipimod:potted_yellow_daisy",
+    "pipimod:potted_lime_daisy",
+    "pipimod:potted_pink_daisy",
+    "pipimod:potted_gray_daisy",
+    "pipimod:potted_light_gray_daisy",
+    "pipimod:potted_cyan_daisy",
+    "pipimod:potted_purple_daisy",
+    "pipimod:potted_blue_daisy",
+    "pipimod:potted_brown_daisy",
+    "pipimod:potted_green_daisy",
+    "pipimod:potted_red_daisy",
+    "pipimod:potted_black_daisy"
   ]
 }

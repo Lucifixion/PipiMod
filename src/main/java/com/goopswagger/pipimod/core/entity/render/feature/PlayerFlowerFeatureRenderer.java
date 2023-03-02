@@ -1,6 +1,7 @@
 package com.goopswagger.pipimod.core.entity.render.feature;
 
 import com.goopswagger.pipimod.core.PipiModBlocks;
+import com.goopswagger.pipimod.core.block.PipiFlowerBlock;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
@@ -17,8 +18,8 @@ import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.RotationAxis;
 
 @Environment(EnvType.CLIENT)
 public class PlayerFlowerFeatureRenderer<T extends PlayerEntity> extends FeatureRenderer<T, PlayerEntityModel<T>> {
@@ -32,11 +33,11 @@ public class PlayerFlowerFeatureRenderer<T extends PlayerEntity> extends Feature
     @Override
     public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, T playerEntity, float f, float g, float h, float j, float k, float l) {
         ItemStack itemStack = playerEntity.getEquippedStack(EquipmentSlot.HEAD);
-        if (!(itemStack.isEmpty()) && (itemStack.getItem() == PipiModBlocks.PINK_DAISY.asItem())) {
+        if (!(itemStack.isEmpty()) && (itemStack.getItem() instanceof BlockItem blockItem)) {
             MinecraftClient minecraftClient = MinecraftClient.getInstance();
             boolean bl = minecraftClient.hasOutline(playerEntity) && playerEntity.isInvisible();
             if (!playerEntity.isInvisible() || bl) {
-                BlockState blockState = PipiModBlocks.PINK_DAISY.getDefaultState();
+                BlockState blockState = blockItem.getBlock().getDefaultState();
                 int m = LivingEntityRenderer.getOverlay(playerEntity, 0.0F);
                 BakedModel bakedModel = this.blockRenderManager.getModel(blockState);
                 matrixStack.push();

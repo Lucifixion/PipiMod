@@ -2,8 +2,26 @@
     "advancements.pipimod.story.cosplay.title": "Cosplay!",
     "advancements.pipimod.story.cosplay.description": "Wear the flower of a Pipi on your head",
 
-    "item.pipimod.pipi_spawn_egg": "Pipi Spawn Egg",
-    "block.pipimod.pink_daisy": "Pipi Flower",
+    "block.pipimod.white_daisy": "White Pipi Flower",
+    "block.pipimod.orange_daisy": "Orange Pipi Flower",
+    "block.pipimod.magenta_daisy": "Magenta Pipi Flower",
+    "block.pipimod.light_blue_daisy": "Light Blue Pipi Flower",
+    "block.pipimod.yellow_daisy": "Yellow Pipi Flower",
+    "block.pipimod.lime_daisy": "Lime Pipi Flower",
+    "block.pipimod.pink_daisy": "Pink Pipi Flower",
+    "block.pipimod.gray_daisy": "Gray Pipi Flower",
+    "block.pipimod.light_gray_daisy": "Light Gray Pipi Flower",
+    "block.pipimod.cyan_daisy": "Cyan Pipi Flower",
+    "block.pipimod.purple_daisy": "Purple Pipi Flower",
+    "block.pipimod.blue_daisy": "Blue Pipi Flower",
+    "block.pipimod.brown_daisy": "Brown Pipi Flower",
+    "block.pipimod.green_daisy": "Green Pipi Flower",
+    "block.pipimod.red_daisy": "Red Pipi Flower",
+    "block.pipimod.black_daisy": "Black Pipi Flower",
 
-    "entity.pipimod.pipi": "Pipi"
+    "item.pipimod.pipi_spawn_egg": "Pipi Spawn Egg",
+    "item.pipimod.mushroom_pipi_spawn_egg": "Mushroom Pipi Spawn Egg",
+
+    "entity.pipimod.pipi": "Pipi",
+    "entity.pipimod.mushroom_pipi": "Mushroom Pipi"
 }

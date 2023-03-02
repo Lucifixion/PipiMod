@@ -1,0 +1,6 @@
+{
+	"parent": "pipimod:block/template/daisy",
+	"textures": {
+		"cross": "pipimod:block/purple_daisy"
+	}
+}

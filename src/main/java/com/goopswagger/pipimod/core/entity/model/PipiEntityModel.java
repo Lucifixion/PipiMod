@@ -5,12 +5,9 @@ import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 
-import java.util.Random;
-
-public class PipiEntityModel<T extends Entity> extends EntityModel<T> {
+public class PipiEntityModel<T extends PipiEntity> extends EntityModel<T> {
     private final ModelPart front_right_leg;
     private final ModelPart back_right_leg;
     private final ModelPart head;
@@ -61,18 +58,18 @@ public class PipiEntityModel<T extends Entity> extends EntityModel<T> {
 
     @Override
     public void setAngles(T entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
-        //        if (entity.getFrolicing()) {
-//            float tickDelta = ageInTicks - (float)entity.age;
+//        if (entity.getFrolicing()) {
+//            float tickDelta = animationProgress - (float)entity.age;
 //            this.jumpProgress = MathHelper.sin(entity.getJumpProgress(tickDelta) * 3.1415927F);
 //            this.front_right_leg.pitch = -(this.jumpProgress * 50.0F * 0.017453292F);
 //            this.front_left_leg.pitch = -(this.jumpProgress * 50.0F * 0.017453292F);
 //            this.back_right_leg.pitch = this.jumpProgress * 50.0F * 0.017453292F;
 //            this.back_left_leg.pitch = this.jumpProgress * 50.0F * 0.017453292F;
 //        } else {
-        this.back_right_leg.pitch = MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance;
-        this.back_left_leg.pitch = MathHelper.cos(limbAngle * 0.6662F + 3.1415927F) * 1.4F * limbDistance;
-        this.front_right_leg.pitch = MathHelper.cos(limbAngle * 0.6662F + 3.1415927F) * 1.4F * limbDistance;
-        this.front_left_leg.pitch = MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance;
+            this.back_right_leg.pitch = MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance;
+            this.back_left_leg.pitch = MathHelper.cos(limbAngle * 0.6662F + 3.1415927F) * 1.4F * limbDistance;
+            this.front_right_leg.pitch = MathHelper.cos(limbAngle * 0.6662F + 3.1415927F) * 1.4F * limbDistance;
+            this.front_left_leg.pitch = MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance;
 //        }
     }
 
