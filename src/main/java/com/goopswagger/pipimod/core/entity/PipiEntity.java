@@ -1,6 +1,7 @@
 package com.goopswagger.pipimod.core.entity;
 
 import com.goopswagger.pipimod.core.PipiModEntities;
+import com.goopswagger.pipimod.core.PipiModSoundEvents;
 import com.goopswagger.pipimod.core.block.PipiFlowerBlock;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
@@ -12,6 +13,7 @@ import net.minecraft.entity.ai.pathing.Path;
 import net.minecraft.entity.attribute.AttributeContainer;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
@@ -38,6 +40,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class PipiEntity extends AnimalEntity {
@@ -73,7 +76,7 @@ public class PipiEntity extends AnimalEntity {
 
     @Override
     public boolean isBreedingItem(ItemStack stack) {
-        return stack.isIn(ItemTags.FLOWERS);
+        return false;
     }
 
     protected void initDataTracker() {
@@ -103,8 +106,24 @@ public class PipiEntity extends AnimalEntity {
         this.dataTracker.set(COLOR, nbt.getByte("Color"));
     }
 
+    @Nullable
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return PipiModSoundEvents.ENTITY_PIPI_AMBIENT;
+    }
+
+    @Nullable
+    @Override
+    protected SoundEvent getHurtSound(DamageSource source) {
+        return PipiModSoundEvents.ENTITY_PIPI_HURT;
+    }
+
     public Block getFlower() {
         return PipiFlowerBlock.DYE_COLOR_TO_FLOWER.get(DyeColor.byId(this.dataTracker.get(COLOR)));
+    }
+
+    public void setFlower(DyeColor color) {
+        this.dataTracker.set(COLOR, ((byte) color.getId()));
     }
 
     public static DefaultAttributeContainer.Builder createPipiAttributes() {
@@ -119,9 +138,7 @@ public class PipiEntity extends AnimalEntity {
     @Nullable
     @Override
     public PassiveEntity createChild(ServerWorld world, PassiveEntity entity) {
-        PipiEntity pipiEntity = PipiModEntities.PIPI.create(world);
-        pipiEntity.setBaby(true);
-        return pipiEntity;
+        return null;
     }
 
     public boolean hasFlower() {
@@ -131,16 +148,18 @@ public class PipiEntity extends AnimalEntity {
     public ActionResult interactMob(PlayerEntity player, Hand hand) {
 
         if (player.isSneaking() && player.getStackInHand(hand) == ItemStack.EMPTY) { // pet the pipi
-            player.swingHand(hand);
-            this.world.sendEntityStatus(this, (byte)18);
-            return ActionResult.CONSUME;
+            if (this.world.isClient) {
+                player.swingHand(hand);
+            } else {
+                this.world.sendEntityStatus(this, (byte)18);
+            }
+            return ActionResult.SUCCESS;
         }
 
         ItemStack itemStack = player.getStackInHand(hand);
         if (itemStack.isOf(Items.SHEARS)) { // cut off all your hair
             if (!this.world.isClient && this.hasFlower()) {
-                this.sheared(SoundCategory.PLAYERS);
-                this.emitGameEvent(GameEvent.SHEAR, player);
+                this.shearFlower(player);
                 itemStack.damage(1, player, (playerx) -> playerx.sendToolBreakStatus(hand));
                 return ActionResult.SUCCESS;
             } else {
@@ -150,7 +169,7 @@ public class PipiEntity extends AnimalEntity {
 
         if (itemStack.isOf(Items.BONE_MEAL)) { // and then put on a wig
             if (!this.world.isClient && !this.hasFlower() && !isBaby()) {
-                this.grow(SoundCategory.PLAYERS);
+                this.growFlower();
                 itemStack.decrement(1);
                 return ActionResult.SUCCESS;
             } else {
@@ -158,36 +177,41 @@ public class PipiEntity extends AnimalEntity {
             }
         }
 
-        if (itemStack.getItem() instanceof DyeItem) { // and then use some hair dye
+        if (itemStack.getItem() instanceof DyeItem && !(this instanceof MushroomPipiEntity)) { // and then use some hair dye
             if (!this.world.isClient && this.hasFlower()) {
-                PipiFlowerBlock flowerBlock = PipiFlowerBlock.DYE_COLOR_TO_FLOWER.get(((DyeItem) itemStack.getItem()).getColor());
-                if (flowerBlock != null && this.dataTracker.get(COLOR) != ((byte) flowerBlock.dyeColor.getId())) {
-                    this.world.playSoundFromEntity(player, this, SoundEvents.ITEM_DYE_USE, SoundCategory.PLAYERS, 1.0F, 1.0F);
-                    this.dataTracker.set(COLOR, ((byte) flowerBlock.dyeColor.getId()));
-                    itemStack.decrement(1);
-                    return ActionResult.SUCCESS;
-                }
+                this.dyeFlower(itemStack);
+                itemStack.decrement(1);
+                return ActionResult.SUCCESS;
             } else {
                 return ActionResult.CONSUME;
             }
-        } // wow, this has gotten messy
+        }
 
         return super.interactMob(player, hand);
     }
 
-    public void sheared(SoundCategory shearedSoundCategory) {
-        this.world.playSoundFromEntity(null, this, SoundEvents.ENTITY_SHEEP_SHEAR, shearedSoundCategory, 1.0F, 1.0F);
+    public void shearFlower(PlayerEntity player) {
+        this.world.playSoundFromEntity(null, this, SoundEvents.ENTITY_SHEEP_SHEAR, SoundCategory.PLAYERS, 1.0F, 1.0F);
         this.dataTracker.set(FLOWER, false);
-        ItemEntity itemEntity = this.dropItem(PipiFlowerBlock.DYE_COLOR_TO_FLOWER.get(DyeColor.byId(this.dataTracker.get(COLOR))));
+        this.emitGameEvent(GameEvent.SHEAR, player);
+        ItemEntity itemEntity = this.dropItem(this.getFlower());
         if (itemEntity != null) {
             itemEntity.setVelocity(itemEntity.getVelocity().add((this.random.nextFloat() - this.random.nextFloat()) * 0.1F, this.random.nextFloat() * 0.05F, (this.random.nextFloat() - this.random.nextFloat()) * 0.1F));
         }
     }
 
-    public void grow(SoundCategory growSoundCategory) {
-        this.world.playSoundFromEntity(null, this, SoundEvents.ITEM_BONE_MEAL_USE, growSoundCategory, 1.0F, 1.0F);
+    public void growFlower() {
+        this.world.playSoundFromEntity(null, this, SoundEvents.ITEM_BONE_MEAL_USE, SoundCategory.PLAYERS, 1.0F, 1.0F);
         this.dataTracker.set(FLOWER, true);
         this.flowerTick = 0;
+    }
+
+    public void dyeFlower(@NotNull ItemStack itemStack) {
+        PipiFlowerBlock flowerBlock = PipiFlowerBlock.DYE_COLOR_TO_FLOWER.get(((DyeItem) itemStack.getItem()).getColor());
+        if (flowerBlock != null && this.dataTracker.get(COLOR) != ((byte) flowerBlock.dyeColor.getId())) {
+            this.world.playSoundFromEntity(null, this, SoundEvents.ITEM_DYE_USE, SoundCategory.PLAYERS, 1.0F, 1.0F);
+            this.dataTracker.set(COLOR, ((byte) flowerBlock.dyeColor.getId()));
+        }
     }
 
     protected void jump() {
@@ -351,7 +375,7 @@ public class PipiEntity extends AnimalEntity {
 
     public void startJump() {
         this.setJumping(true);
-        this.jumpDuration = 10;
+        this.jumpDuration = 20;
         this.jumpTicks = 0;
     }
 

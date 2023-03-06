@@ -24,6 +24,8 @@ public class PipiModItemGroups {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.NATURAL).register(content -> content.addAfter(Items.LILY_OF_THE_VALLEY, PipiModBlocks.RED_DAISY));
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.NATURAL).register(content -> content.addAfter(Items.LILY_OF_THE_VALLEY, PipiModBlocks.BLACK_DAISY));
 
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.SPAWN_EGGS).register(content -> content.addAfter(Items.BROWN_MUSHROOM, PipiModBlocks.ORANGE_MUSHROOM));
+
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.SPAWN_EGGS).register(content -> content.addAfter(Items.PILLAGER_SPAWN_EGG, PipiModItems.PIPI_SPAWN_EGG));
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.SPAWN_EGGS).register(content -> content.addAfter(Items.MULE_SPAWN_EGG, PipiModItems.MUSHROOM_PIPI_SPAWN_EGG));
     }

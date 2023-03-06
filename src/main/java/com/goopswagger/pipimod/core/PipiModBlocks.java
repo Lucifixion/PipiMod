@@ -2,12 +2,16 @@ package com.goopswagger.pipimod.core;
 
 import com.goopswagger.pipimod.PipiMod;
 import com.goopswagger.pipimod.core.block.PipiFlowerBlock;
+import com.goopswagger.pipimod.core.block.PipiMushroomBlock;
+import com.goopswagger.pipimod.core.util.MushroomType;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.FoodComponent;
+import net.minecraft.item.FoodComponents;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.DyeColor;
@@ -49,6 +53,9 @@ public class PipiModBlocks {
     public static FlowerPotBlock POTTED_RED_DAISY = new FlowerPotBlock(RED_DAISY, FabricBlockSettings.copyOf(Blocks.POTTED_DANDELION));
     public static FlowerPotBlock POTTED_BLACK_DAISY = new FlowerPotBlock(BLACK_DAISY, FabricBlockSettings.copyOf(Blocks.POTTED_DANDELION));
 
+    public static FlowerBlock ORANGE_MUSHROOM = new PipiMushroomBlock(StatusEffects.REGENERATION, 20, MushroomType.ORANGE, FabricBlockSettings.copyOf(Blocks.DANDELION));
+    public static FlowerPotBlock POTTED_ORANGE_MUSHROOM = new FlowerPotBlock(ORANGE_MUSHROOM, FabricBlockSettings.copyOf(Blocks.POTTED_DANDELION));
+
     public static void init() {
         registerFlower(new Identifier(PipiMod.MODID, "white_daisy"), WHITE_DAISY, POTTED_WHITE_DAISY);
         registerFlower(new Identifier(PipiMod.MODID, "orange_daisy"), ORANGE_DAISY, POTTED_ORANGE_DAISY);
@@ -66,11 +73,19 @@ public class PipiModBlocks {
         registerFlower(new Identifier(PipiMod.MODID, "green_daisy"), GREEN_DAISY, POTTED_GREEN_DAISY);
         registerFlower(new Identifier(PipiMod.MODID, "red_daisy"), RED_DAISY, POTTED_RED_DAISY);
         registerFlower(new Identifier(PipiMod.MODID, "black_daisy"), BLACK_DAISY, POTTED_BLACK_DAISY);
+
+        registerMushroom(new Identifier(PipiMod.MODID, "orange_mushroom"), ORANGE_MUSHROOM, POTTED_ORANGE_MUSHROOM);
     }
 
     private static void registerFlower(Identifier identifier, FlowerBlock flowerBlock, FlowerPotBlock flowerPotBlock) {
         Registry.register(Registries.BLOCK, identifier, flowerBlock);
         Registry.register(Registries.ITEM, identifier, new BlockItem(flowerBlock, new FabricItemSettings().equipmentSlot(stack -> EquipmentSlot.HEAD)));
+        Registry.register(Registries.BLOCK, new Identifier(identifier.getNamespace(), "potted_" + identifier.getPath()), flowerPotBlock);
+    }
+
+    private static void registerMushroom(Identifier identifier, FlowerBlock flowerBlock, FlowerPotBlock flowerPotBlock) {
+        Registry.register(Registries.BLOCK, identifier, flowerBlock);
+        Registry.register(Registries.ITEM, identifier, new BlockItem(flowerBlock, new FabricItemSettings().food((new FoodComponent.Builder()).hunger(2).saturationModifier(0.1F).snack().build()).equipmentSlot(stack -> EquipmentSlot.HEAD)));
         Registry.register(Registries.BLOCK, new Identifier(identifier.getNamespace(), "potted_" + identifier.getPath()), flowerPotBlock);
     }
 

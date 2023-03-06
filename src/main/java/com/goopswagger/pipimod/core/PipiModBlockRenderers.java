@@ -39,6 +39,9 @@ public class PipiModBlockRenderers {
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), PipiModBlocks.POTTED_GREEN_DAISY);
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), PipiModBlocks.POTTED_RED_DAISY);
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), PipiModBlocks.POTTED_BLACK_DAISY);
+
+        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), PipiModBlocks.ORANGE_MUSHROOM);
+        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), PipiModBlocks.POTTED_ORANGE_MUSHROOM);
     }
 
 }

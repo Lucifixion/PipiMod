@@ -2,6 +2,7 @@ package com.goopswagger.pipimod.core.entity.render.feature;
 
 import com.goopswagger.pipimod.core.PipiModBlocks;
 import com.goopswagger.pipimod.core.block.PipiFlowerBlock;
+import com.goopswagger.pipimod.core.block.PipiMushroomBlock;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
@@ -34,6 +35,7 @@ public class PlayerFlowerFeatureRenderer<T extends PlayerEntity> extends Feature
     public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, T playerEntity, float f, float g, float h, float j, float k, float l) {
         ItemStack itemStack = playerEntity.getEquippedStack(EquipmentSlot.HEAD);
         if (!(itemStack.isEmpty()) && (itemStack.getItem() instanceof BlockItem blockItem)) {
+            if (!(blockItem.getBlock() instanceof PipiFlowerBlock || blockItem.getBlock() instanceof PipiMushroomBlock)) return;
             MinecraftClient minecraftClient = MinecraftClient.getInstance();
             boolean bl = minecraftClient.hasOutline(playerEntity) && playerEntity.isInvisible();
             if (!playerEntity.isInvisible() || bl) {

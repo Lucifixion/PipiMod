@@ -2,7 +2,8 @@ package com.goopswagger.pipimod.core.block;
 
 import com.goopswagger.pipimod.core.PipiModEntities;
 import com.goopswagger.pipimod.core.PipiModGamerules;
-import com.goopswagger.pipimod.core.entity.PipiEntity;
+import com.goopswagger.pipimod.core.entity.MushroomPipiEntity;
+import com.goopswagger.pipimod.core.util.MushroomType;
 import net.minecraft.block.*;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.player.PlayerEntity;
@@ -13,9 +14,7 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.Property;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.DyeColor;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -24,19 +23,19 @@ import net.minecraft.world.World;
 
 import java.util.HashMap;
 
-public class PipiFlowerBlock extends FlowerBlock {
+public class PipiMushroomBlock extends FlowerBlock {
 
     public static final BooleanProperty GROWS = BooleanProperty.of("grows");
     public static final BooleanProperty READY_TO_GROW = BooleanProperty.of("ready_to_grow");
 
-    public static HashMap<DyeColor, PipiFlowerBlock> DYE_COLOR_TO_FLOWER = new HashMap<>();
+    public static HashMap<MushroomType, FlowerBlock> MUSHROOM_TYPE_TO_MUSHROOM = new HashMap<>();
 
-    public final DyeColor dyeColor;
+    public final MushroomType type;
 
-    public PipiFlowerBlock(StatusEffect suspiciousStewEffect, int effectDuration, DyeColor color, Settings settings) {
+    public PipiMushroomBlock(StatusEffect suspiciousStewEffect, int effectDuration, MushroomType type, Settings settings) {
         super(suspiciousStewEffect, effectDuration, settings);
-        DYE_COLOR_TO_FLOWER.put(color, this);
-        this.dyeColor = color;
+        MUSHROOM_TYPE_TO_MUSHROOM.put(type, this);
+        this.type = type;
         this.setDefaultState(this.stateManager.getDefaultState().with(GROWS, true).with(READY_TO_GROW, false));
     }
 
@@ -75,12 +74,10 @@ public class PipiFlowerBlock extends FlowerBlock {
             world.breakBlock(pos, false);
             world.breakBlock(blockBeneathPos, false);
             world.setBlockState(blockBeneathPos, Blocks.DIRT.getDefaultState());
-            PipiEntity pipiEntity = PipiModEntities.PIPI.create(world);
-            pipiEntity.setFlower(this.dyeColor);
+            MushroomPipiEntity pipiEntity = PipiModEntities.MUSHROOM_PIPI.create(world);
+            pipiEntity.setMushroomType(this.type);
             pipiEntity.teleport(blockBeneathPos.getX()+0.5,pos.getY()+0.5,blockBeneathPos.getZ()+0.5);
             world.spawnEntity(pipiEntity);
         }
     }
-
-
 }

@@ -1,0 +1,23 @@
+{
+  "entity.pipi.ambient": {
+    "sounds": [
+      {
+        "name": "pipimod:entity/pipi/ambient"
+      }
+    ]
+  },
+  "entity.pipi.hurt": {
+    "sounds": [
+      {
+        "name": "pipimod:entity/pipi/hurt"
+      }
+    ]
+  },
+  "entity.pipi.death": {
+    "sounds": [
+      {
+        "name": "pipimod:entity/pipi/death"
+      }
+    ]
+  }
+}

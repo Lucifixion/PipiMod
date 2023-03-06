@@ -4,9 +4,9 @@
   "version": "${version}",
 
   "name": "PipiMod",
-  "description": "Adds the great \"pipi\" mob to the game, truly something we all strive to have in life",
+  "description": "Adds the \"pipi\" mob to the game, what we've all been waiting for!",
   "authors": [
-    "fake_orchestra",
+    "ivysilly",
     "GoopSwagger"
   ],
   "contact": {
