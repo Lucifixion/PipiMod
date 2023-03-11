@@ -1,6 +1,7 @@
 package com.goopswagger.pipimod.mixin;
 
 import com.goopswagger.pipimod.core.entity.render.feature.PlayerFlowerFeatureRenderer;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
@@ -20,6 +21,6 @@ public abstract class PlayerEntityRendererMixin extends LivingEntityRenderer<Abs
 
     @Inject(at=@At("TAIL"), method="<init>")
     private void init(EntityRendererFactory.Context context, boolean bl, CallbackInfo ci) {
-        this.addFeature(new PlayerFlowerFeatureRenderer(this, context.getBlockRenderManager()));
+        this.addFeature(new PlayerFlowerFeatureRenderer(this, MinecraftClient.getInstance().getBlockRenderManager()));
     }
 }

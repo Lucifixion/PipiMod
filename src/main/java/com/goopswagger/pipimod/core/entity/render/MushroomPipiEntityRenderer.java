@@ -5,6 +5,7 @@ import com.goopswagger.pipimod.core.PipiModRenderers;
 import com.goopswagger.pipimod.core.entity.MushroomPipiEntity;
 import com.goopswagger.pipimod.core.entity.model.MushroomPipiEntityModel;
 import com.goopswagger.pipimod.core.entity.render.feature.PipiFlowerFeatureRenderer;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.util.Identifier;
@@ -13,7 +14,7 @@ public class MushroomPipiEntityRenderer extends MobEntityRenderer<MushroomPipiEn
 
     public MushroomPipiEntityRenderer(EntityRendererFactory.Context context) {
         super(context, new MushroomPipiEntityModel(context.getPart(PipiModRenderers.MODEL_MUSHROOM_PIPI_LAYER)), 0.5f);
-        this.addFeature(new PipiFlowerFeatureRenderer(this, context.getBlockRenderManager()));
+        this.addFeature(new PipiFlowerFeatureRenderer(this, MinecraftClient.getInstance().getBlockRenderManager()));
     }
 
     @Override

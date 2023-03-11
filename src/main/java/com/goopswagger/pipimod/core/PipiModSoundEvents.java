@@ -6,7 +6,7 @@ import net.minecraft.util.Identifier;
 
 public class PipiModSoundEvents {
 
-    public static SoundEvent ENTITY_PIPI_AMBIENT = SoundEvent.of(Identifier.of(PipiMod.MODID, "entity.pipi.ambient"));
-    public static SoundEvent ENTITY_PIPI_HURT = SoundEvent.of(Identifier.of(PipiMod.MODID, "entity.pipi.hurt"));
+    public static SoundEvent ENTITY_PIPI_AMBIENT = new SoundEvent(new Identifier(PipiMod.MODID, "entity.pipi.ambient"));
+    public static SoundEvent ENTITY_PIPI_HURT = new SoundEvent(new Identifier(PipiMod.MODID, "entity.pipi.hurt"));
 
 }

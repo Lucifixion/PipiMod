@@ -1,14 +1,18 @@
 package com.goopswagger.pipimod.core.util;
 
-import net.minecraft.util.function.ValueLists;
+import net.minecraft.util.DyeColor;
 
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.function.IntFunction;
 
 public enum MushroomType {
 
     ORANGE(0, "orange");
 
-    private static final IntFunction<MushroomType> BY_ID = ValueLists.createIdToValueFunction(MushroomType::getId, values(), ValueLists.OutOfBoundsHandling.ZERO);
+//    private static final IntFunction<MushroomType> BY_ID = ValueLists.createIdToValueFunction(MushroomType::getId, values(), ValueLists.OutOfBoundsHandling.ZERO);
+
+    private static final MushroomType[] VALUES = Arrays.stream(values()).sorted(Comparator.comparingInt(MushroomType::getId)).toArray(MushroomType[]::new);
 
     private final int id;
     private final String name;
@@ -26,8 +30,16 @@ public enum MushroomType {
         return this.name;
     }
 
+//    public static MushroomType byId(int id) {
+//        return BY_ID.apply(id);
+//    }
+
     public static MushroomType byId(int id) {
-        return BY_ID.apply(id);
+        if (id < 0 || id >= VALUES.length) {
+            id = 0;
+        }
+
+        return VALUES[id];
     }
 
 }

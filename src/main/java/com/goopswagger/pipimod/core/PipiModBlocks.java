@@ -11,11 +11,9 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.FoodComponent;
-import net.minecraft.item.FoodComponents;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 
 public class PipiModBlocks {
 
@@ -78,15 +76,15 @@ public class PipiModBlocks {
     }
 
     private static void registerFlower(Identifier identifier, FlowerBlock flowerBlock, FlowerPotBlock flowerPotBlock) {
-        Registry.register(Registries.BLOCK, identifier, flowerBlock);
-        Registry.register(Registries.ITEM, identifier, new BlockItem(flowerBlock, new FabricItemSettings().equipmentSlot(stack -> EquipmentSlot.HEAD)));
-        Registry.register(Registries.BLOCK, new Identifier(identifier.getNamespace(), "potted_" + identifier.getPath()), flowerPotBlock);
+        Registry.register(Registry.BLOCK, identifier, flowerBlock);
+        Registry.register(Registry.ITEM, identifier, new BlockItem(flowerBlock, new FabricItemSettings().equipmentSlot(stack -> EquipmentSlot.HEAD)));
+        Registry.register(Registry.BLOCK, new Identifier(identifier.getNamespace(), "potted_" + identifier.getPath()), flowerPotBlock);
     }
 
     private static void registerMushroom(Identifier identifier, FlowerBlock flowerBlock, FlowerPotBlock flowerPotBlock) {
-        Registry.register(Registries.BLOCK, identifier, flowerBlock);
-        Registry.register(Registries.ITEM, identifier, new BlockItem(flowerBlock, new FabricItemSettings().food((new FoodComponent.Builder()).hunger(2).saturationModifier(0.1F).snack().build()).equipmentSlot(stack -> EquipmentSlot.HEAD)));
-        Registry.register(Registries.BLOCK, new Identifier(identifier.getNamespace(), "potted_" + identifier.getPath()), flowerPotBlock);
+        Registry.register(Registry.BLOCK, identifier, flowerBlock);
+        Registry.register(Registry.ITEM, identifier, new BlockItem(flowerBlock, new FabricItemSettings().food((new FoodComponent.Builder()).hunger(2).saturationModifier(0.1F).snack().build()).equipmentSlot(stack -> EquipmentSlot.HEAD)));
+        Registry.register(Registry.BLOCK, new Identifier(identifier.getNamespace(), "potted_" + identifier.getPath()), flowerPotBlock);
     }
 
 }

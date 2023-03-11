@@ -8,20 +8,19 @@ import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 
 public class PipiModEntities {
 
     public static final EntityType<PipiEntity> PIPI = Registry.register(
-            Registries.ENTITY_TYPE,
+            Registry.ENTITY_TYPE,
             new Identifier(PipiMod.MODID, "pipi"), FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, PipiEntity::new).dimensions(
                     EntityDimensions.fixed(0.75f, 0.75f)).build()
     );
 
     public static final EntityType<MushroomPipiEntity> MUSHROOM_PIPI = Registry.register(
-            Registries.ENTITY_TYPE,
+            Registry.ENTITY_TYPE,
             new Identifier(PipiMod.MODID, "mushroom_pipi"), FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, MushroomPipiEntity::new).dimensions(
                     EntityDimensions.fixed(0.75f, 0.75f)).build()
     );

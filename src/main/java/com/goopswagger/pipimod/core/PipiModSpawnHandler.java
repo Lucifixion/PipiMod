@@ -5,9 +5,9 @@ import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.biome.v1.ModificationPhase;
 import net.minecraft.entity.SpawnGroup;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.tag.BiomeTags;
-import net.minecraft.registry.tag.TagKey;
+import net.minecraft.tag.BiomeTags;
+import net.minecraft.tag.TagKey;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeKeys;
 import net.minecraft.world.biome.SpawnSettings;
@@ -22,7 +22,7 @@ public class PipiModSpawnHandler { // i took this from https://github.com/KaiAF/
     }
 
     public static void registerSpawn(Predicate<BiomeSelectionContext> biomeSelector, SpawnGroup spawnGroup, SpawnSettings.SpawnEntry se) {
-        BiomeModifications.create(Registries.ENTITY_TYPE.getId(se.type)).add(ModificationPhase.ADDITIONS, biomeSelector, context -> context.getSpawnSettings().addSpawn(spawnGroup, se));
+        BiomeModifications.create(Registry.ENTITY_TYPE.getId(se.type)).add(ModificationPhase.ADDITIONS, biomeSelector, context -> context.getSpawnSettings().addSpawn(spawnGroup, se));
     }
 
     private static Predicate<BiomeSelectionContext> tag(TagKey<Biome> tag) {
